@@ -24,22 +24,23 @@ export class NavMenu extends Component {
   render () {
     return (
       <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+        <Navbar style={{backgroundColor: '#cc8b86'}} className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <NavbarBrand tag={Link} to="/">Baza Smaku</NavbarBrand>
+            <NavbarBrand className="text-light"  tag={Link} to="/">Baza Smaku</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Jadłospis</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/">Jadłospis</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Filtr</NavLink>
+                  <NavLink tag={Link} className="text-light" to="/">Filtr</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
           </Container>
         </Navbar>
+        <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
       </header>
     );
   }

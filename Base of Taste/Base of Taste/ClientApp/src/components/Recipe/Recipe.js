@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './Recepie.css';
-import FigureCaption from 'react-bootstrap/FigureCaption'
 import omlet from '../../assets/img/omlet.jpg'
 
 
@@ -11,10 +10,11 @@ class Recepie extends Component {
             <h3>
                 {this.props.nazwa}
             </h3>
-            <img className="img" src = {omlet}/>
-            <FigureCaption>
-                {this.props.opis}
-            </FigureCaption>
+            <img className="img" src = {omlet} alt = "aj" align = "top"/>
+            <p className="text">
+            {this.props.opis}
+            </p>
+
         </div>
         );
     }

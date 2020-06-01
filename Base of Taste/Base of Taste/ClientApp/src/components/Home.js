@@ -27,16 +27,14 @@ export class Home extends Component {
 	}
   render () {
 	let Recepies = (
-		<div className = "rec">
-			{this.state.przepis.map(rec =>
+			this.state.przepis.map(rec =>
 				<Recepie
 				nazwa = {rec.nazwa}
 				opis= {rec.opis}
 				trudnosc = {rec.trudnosc}
 				przygotowanie = {rec.przygotowanie}>
 				</Recepie>
-			)}
-		</div>
+			)
 	);
 
     return (

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@1,700&display=swap');
+
 .Recepie {
     display: inline-block;
     padding: 16px;
@@ -5,12 +7,21 @@
     border: 1px solid rgb(148, 147, 147);
     box-shadow: 0 2px 3px #ccc;
     width: 30%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.h3 {
+    font-family: 'Amiri', serif;
+    text-decoration: inherit;
 }
 
 .img {
     width: 170px;
     height: auto;
     float: right;
-    border-radius: 2px;
+    border-radius: 4px;
     display: block;
+    margin: 10px;
+    clear: right;
 }
