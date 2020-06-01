@@ -1,0 +1,16 @@
+.Recepie {
+    display: inline-block;
+    padding: 16px;
+    margin: 10px;
+    border: 1px solid rgb(148, 147, 147);
+    box-shadow: 0 2px 3px #ccc;
+    width: 30%;
+}
+
+.img {
+    width: 170px;
+    height: auto;
+    float: right;
+    border-radius: 2px;
+    display: block;
+}
