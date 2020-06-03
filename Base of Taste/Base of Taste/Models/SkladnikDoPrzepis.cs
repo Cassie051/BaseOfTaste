@@ -8,7 +8,7 @@ namespace BazaSmakuAPI.Models
         public int Skladnik_ID { get; set; }
         public int Przepis_ID { get; set; }
         public decimal Ilosc { get; set; }
-        public string Jednostka_ID { get; set; }
+        public int Jednostka_ID { get; set; }
 
     }
 }
