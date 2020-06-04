@@ -13,7 +13,6 @@ namespace Base_of_Taste.Interfaces
         public Dieta AddDieta(Dieta dieta);
         public Jednostka AddJednostka(Jednostka jednostka);
         public Przepis AddPrzepis(ViewPrzepis przepis);
-        public Opis AddOpis(Opis opis);
         public Skladnik AddSkladnik(ViewSkladniki skladnik);
         public TypDania AddTypDania(TypDania typDania);
         public WartoscOdzywcza AddWartoscOdrzywcza(WartoscOdzywcza wartoscOdrzywcza);
@@ -28,7 +27,7 @@ namespace Base_of_Taste.Interfaces
         public List<Dieta> GetDiety();
         public List<Jednostka> GetJednostki();
         public List<ViewPrzepis> GetPrzepisy();
-        public List<ViewSkladniki> GetSkladniki();
+        public List<Skladnik> GetSkladniki();
         public List<WartoscOdzywcza> GetWartoscOdzywcze();
         public List<TypDania> GetTypyDania();
 

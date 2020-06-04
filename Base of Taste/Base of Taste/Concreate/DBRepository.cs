@@ -4,8 +4,6 @@ using BazaSmakuAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace Base_of_Taste.Concreate
 {
@@ -31,12 +29,6 @@ namespace Base_of_Taste.Concreate
             var toReturn = _db.Jednostka.Add(jednostka);
             _db.SaveChanges();
             return toReturn.Entity;
-        }
-
-        public Opis AddOpis(Opis opis)
-        {
-            //do usunięcia. opis będzie dodawany razem z przepisem;
-            throw new NotImplementedException();
         }
 
         public Przepis AddPrzepis(ViewPrzepis przepis)
@@ -176,12 +168,61 @@ namespace Base_of_Taste.Concreate
 
         public List<ViewPrzepis> GetPrzepisy()
         {
+
+            var toReturn = new List<ViewPrzepis>();
+            foreach(var przepis in _db.Przepis.ToList())
+            {
+                toReturn.Add(new ViewPrzepis
+                {
+                    ID = przepis.ID,
+                    Nazwa = przepis.Nazwa,
+                    opis = _db.Opis.First(x=> x.ID == przepis.ID)
+                });
+            }
+
+            foreach(var przepis in toReturn)
+            {
+                var ids = _db.TypDoPrzepis.Where(x => x.Przepis_ID == przepis.ID).ToList();
+                List<int> intIds = new List<int>();
+                foreach(var id in ids)
+                {
+                    intIds.Add(id.ID);
+                }
+                przepis.TypDanias = _db.TypDania.Where(x => intIds.Contains(x.ID)).ToList();
+
+                var ids2 = _db.PrzepisDoDieta.Where(x => x.Przepis_ID == przepis.ID).ToList();
+                foreach (var id in ids)
+                {
+                    intIds.Add(id.ID);
+                }
+                przepis.Diety = _db.Dieta.Where(x => intIds.Contains(x.ID)).ToList();
+
+                //ogarnąć to 
+                var ids3 = _db.SkladnikDoPrzepis.Where(x => x.Przepis_ID == przepis.ID).ToList();
+                foreach (var id in ids)
+                {
+                    intIds.Add(id.ID);
+                }
+                var dbSkladniki= _db.Skladnik.Where(x => intIds.Contains(x.ID)).ToList();
+
+                var viewSkladniks = new List<ViewSkladniki>();
+                foreach(var skladnik in dbSkladniki)
+                {
+                    
+                }
+
+
+
+
+
+            }
+
             throw new NotImplementedException();
         }
 
-        public List<ViewSkladniki> GetSkladniki()
+        public List<Skladnik> GetSkladniki()
         {
-            throw new NotImplementedException();
+            return _db.Skladnik.ToList();
         }
 
         public List<TypDania> GetTypyDania()
@@ -196,7 +237,7 @@ namespace Base_of_Taste.Concreate
 
         public bool UsunAlergen(int id)
         {
-            if (_db.AlergenDoSkladnik.Where(x => x.ID == id).Count() != 0)
+            if (_db.AlergenDoSkladnik.Where(x => x.Alergen_ID == id).Count() != 0)
                 throw new Exception("Alergen przypisany jest do niektórych składników");
             var alergen = _db.Alergen.FirstOrDefault(x => x.ID == id);
             _db.Alergen.Remove(alergen);
@@ -206,32 +247,120 @@ namespace Base_of_Taste.Concreate
 
         public bool UsunDieta(int id)
         {
-            throw new NotImplementedException();
+            if (_db.PrzepisDoDieta.Where(x => x.Dieta_ID == id).Count() != 0)
+                throw new Exception("Alergen przypisany jest do niektórych składników");
+            var dieta = _db.Alergen.FirstOrDefault(x => x.ID == id);
+            _db.Alergen.Remove(dieta);
+            _db.SaveChanges();
+            return true;
         }
 
         public bool UsunOpis(int id)
         {
-            throw new NotImplementedException();
+            if (_db.Przepis.Where(x => x.Opis_ID == id).Count() != 0)
+                throw new Exception("Alergen przypisany jest do niektórych składników");
+            var opis = _db.Opis.FirstOrDefault(x => x.ID == id);
+            _db.Opis.Remove(opis);
+            _db.SaveChanges();
+            return true;
         }
 
         public bool UsunPrzepis(int id)
         {
-            throw new NotImplementedException();
+            Przepis dbPrzepis;
+            var dbPrzepisy = _db.Przepis.Where(x => x.ID == id).ToList();
+            if (dbPrzepisy.Count() == 0) throw new Exception("Niewłaściwe id przepisu");
+            else dbPrzepis = dbPrzepisy[0];
+
+            var skladnikiDoPrzepisow = _db.SkladnikDoPrzepis.Where(x => x.Przepis_ID == id);
+            foreach(var sdp in skladnikiDoPrzepisow)
+            {
+                _db.SkladnikDoPrzepis.Remove(sdp);
+            }
+
+            var typyDoPrzepisow = _db.TypDoPrzepis.Where(x => x.Przepis_ID == id);
+            foreach(var tdp in typyDoPrzepisow)
+            {
+                _db.TypDoPrzepis.Remove(tdp);
+            }
+
+            var dietyDoPrzepisow = _db.PrzepisDoDieta.Where(x => x.Przepis_ID == id);
+            foreach(var dtp in dietyDoPrzepisow)
+            {
+                _db.PrzepisDoDieta.Remove(dtp);
+            }
+
+            Opis dbOpis;
+            var dbOpisy = _db.Opis.Where(x => x.ID == id).ToList();
+            if (dbOpisy.Count() == 0) throw new Exception("Niewłaściwe id przepisu");
+            else dbOpis = dbOpisy[0];
+
+            _db.Opis.Remove(dbOpis);
+            _db.Przepis.Remove(dbPrzepis);
+
+            _db.SaveChanges();
+            return true;
         }
 
         public bool UsunSkladnik(int id)
         {
-            throw new NotImplementedException();
+            Skladnik  dbSkladnik;
+            var dbPrzepisy = _db.Skladnik.Where(x => x.ID == id).ToList();
+            if (dbPrzepisy.Count() == 0) throw new Exception("Niewłaściwe id skladnika");
+            else dbSkladnik = dbPrzepisy[0];
+
+            if (_db.SkladnikDoPrzepis.Where(x => x.Skladnik_ID == id).Count() > 0)
+                throw new Exception("Składnik wykorzystywany jest w przepisach");
+
+            var alergenyDoSkladnikow = _db.AlergenDoSkladnik.Where(x => x.Skladnik_ID == id);
+            foreach (var ads in alergenyDoSkladnikow)
+            {
+                _db.AlergenDoSkladnik.Remove(ads);
+            }
+
+            var wartosciDoSkladnikow = _db.WartosciDoSkladnikow.Where(x => x.Skladnik_ID == id);
+            foreach (var wds in wartosciDoSkladnikow)
+            {
+                _db.WartosciDoSkladnikow.Remove(wds);
+            }
+
+            _db.Skladnik.Remove(dbSkladnik);
+
+            _db.SaveChanges();
+
+            return true;
         }
 
         public bool UsunTypDania(int id)
         {
-            throw new NotImplementedException();
+            TypDania dbTypDania  ;
+            var dbTypyDania = _db.TypDania.Where(x => x.ID == id).ToList();
+            if (dbTypyDania.Count() == 0) throw new Exception("Niewłaściwe id typu dania");
+            else dbTypDania = dbTypyDania[0];
+
+            var typyDoPrzepisow = _db.TypDoPrzepis.Where(x => x.Typ_ID == id);
+            foreach (var tdp in typyDoPrzepisow)
+            {
+                _db.TypDoPrzepis.Remove(tdp);
+            }
+
+            _db.TypDania.Remove(dbTypDania);
+            return true;
         }
 
         public bool UsunWartoscOdrzywcza(int id)
         {
-            throw new NotImplementedException();
+            WartoscOdzywcza dbWartoscOdz;
+            var dbWartosciOdz = _db.WartoscOdzywcza.Where(x => x.ID == id).ToList();
+            if (dbWartosciOdz.Count() == 0) throw new Exception("Niewłaściwe id typu dania");
+            else dbWartoscOdz = dbWartosciOdz[0];
+
+            if (_db.WartosciDoSkladnikow.Where(x => x.Wartosc_ID == id).Count() > 0) throw new Exception("Wartość jest używana w składnkach");
+
+            _db.WartoscOdzywcza.Remove(dbWartoscOdz);
+
+            return true;
+
         }
     }
 }
