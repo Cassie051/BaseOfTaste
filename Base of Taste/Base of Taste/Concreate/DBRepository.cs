@@ -4,6 +4,7 @@ using BazaSmakuAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Base_of_Taste.Concreate
 {
@@ -197,27 +198,52 @@ namespace Base_of_Taste.Concreate
                 }
                 przepis.Diety = _db.Dieta.Where(x => intIds.Contains(x.ID)).ToList();
 
-                //ogarnąć to 
-                var ids3 = _db.SkladnikDoPrzepis.Where(x => x.Przepis_ID == przepis.ID).ToList();
-                foreach (var id in ids)
+                var vskladniki = _db.SkladnikDoPrzepis.Join(_db.Skladnik, sdp => sdp.Skladnik_ID, skladnik => skladnik.ID, (x, y) => 
+                    new { sdp = x, skladnik = y })
+                    .Where(x=> x.sdp.Przepis_ID == przepis.ID);
+                List<ViewSkladniki> skladnikis = new List<ViewSkladniki>();
+                foreach(var vskladnik in vskladniki)
                 {
-                    intIds.Add(id.ID);
+                    var t =new ViewSkladniki
+                    {
+                        ID = vskladnik.skladnik.ID,
+                        Nazwa = vskladnik.skladnik.Nazwa,
+                        Ilosc = vskladnik.sdp.Ilosc,
+                        Jednostka = _db.Jednostka.First(x => x.ID == vskladnik.sdp.Jednostka_ID)
+                    };
+
+                    var valergenys = _db.AlergenDoSkladnik.Join(_db.Alergen, ads => ads.Alergen_ID, alergen => alergen.ID, (x, y) 
+                        => new { ads = x, alergen = y })
+                        .Where(x => x.ads.Skladnik_ID == t.ID);
+                    t.Alergeny = new List<Alergen>();
+                    foreach(var valergen in valergenys)
+                    {
+                        t.Alergeny.Add(valergen.alergen);
+                    }
+
+                    t.WartoscOdzywcze = new List<ViewWarotscOdzywcza>();
+                    var vwartodzs = _db.WartosciDoSkladnikow.Join(_db.WartoscOdzywcza, wds => wds.Wartosc_ID, wartosc => wartosc.ID, (x, y)
+                        => new { wds = x, wartosc = y })
+                        .Where(x => x.wds.Skladnik_ID == t.ID);
+                    foreach(var vwartodz in vwartodzs)
+                    {
+                        t.WartoscOdzywcze.Add(new ViewWarotscOdzywcza
+                        {
+                            ID = vwartodz.wartosc.ID,
+                            Nazwa = vwartodz.wartosc.Nazwa,
+                            ilosc = vwartodz.wds.Ilosc
+                        });
+
+                    }
+
+                     
                 }
-                var dbSkladniki= _db.Skladnik.Where(x => intIds.Contains(x.ID)).ToList();
 
-                var viewSkladniks = new List<ViewSkladniki>();
-                foreach(var skladnik in dbSkladniki)
-                {
-                    
-                }
-
-
-
-
+                przepis.Skladniki = skladnikis;
 
             }
 
-            throw new NotImplementedException();
+            return toReturn;
         }
 
         public List<Skladnik> GetSkladniki()
