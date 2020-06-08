@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import './Recepie.css';
-import omlet from '../../assets/img/omlet.jpg'
+import React from 'react';
+import './Recipe.css';
+import omlet from '../../../assets/img/omlet.jpg'
 
 
-const Recepie = (props) => {
+const Recipe = (props) => {
         return(
-        <div className = "Recepie" onClick={props.click}>
+        <div className = "Recipe" onClick={props.click}>
             <h3>
                 {props.nazwa}
             </h3>
@@ -18,4 +18,4 @@ const Recepie = (props) => {
         );
 }
 
-export default Recepie;
+export default Recipe;

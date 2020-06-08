@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Recepie from './Recipe/Recipe';
-import Modal from 'react-bootstrap/Modal'
-import './Home.css'
-
+import Recipes from './Recipes/Recipes';
+import RecipeCard from './Recipes/Recipe/RecipeCard';
+import Modal from 'react-bootstrap/Modal';
+import './Home.css';
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -27,50 +27,53 @@ export class Home extends Component {
 		przygotowanie: 'Ziemniaki obieramy płuczemy. cebulę obieramy. Dodajemy jajko i mąkę pszenną ok 3 duże łyżki. Doprawiamy do smaku solą i pieprzem. Na patelni rozgrzewamy tłuszcz i nakładamy ok 2 łyżki masy na jednego placka. Smażymy na złoto ok 2 do 3 minut z każdej strony. Podajemy z ulubionym dodatkiem bądź same.'
 	}],
 	ModalShow: false,
-	chosenRecepie: ''
+	chosenRecepie: 'id'
 	}
 
 	RecepieClick = (recepieKey) => {
 		this.setState({ModalShow: true});
-		const recepieIndex = this.state.przepis.findIndex(r=> {
-			return r.id === recepieKey;
-		});
-		//const recepie = this.state.przepis[recepieIndex];
-		this.setState( {chosenRecepie: this.state.przepis[recepieIndex]});
-		// this.setState({chosenRecepie: recepie});
-		console.log(this.state.chosenRecepie)
+		// let recepie = { ...this.state.przepis[recepieIndex] };
+		// this.setState( {chosenRecepie: this.state.przepis[recepieIndex]});
+		this.setState({ chosenRecepie: recepieKey })
 	}
-	RecepieClose = () =>{
-		this.setState({ModalShow: false})
-	}
-
 
 	render () {
-		let Recepies = (
-			this.state.przepis.map((rec, id) =>
-			<Recepie
-			nazwa = {rec.nazwa}
-			opis= {rec.opis}
-			trudnosc = {rec.trudnosc}
-			przygotowanie = {rec.przygotowanie}
-			key={rec.id}
-			click = {() => this.RecepieClick(rec.id)}
+		let recepie = null;
+
+		let recipes = (
+			<Recipes
+			przepis = {this.state.przepis}
+			clicked = {this.RecepieClick}
 			/>
-			));
+		);
+
+		if (this.state.chosenRecepie !== 'id'){
+			const recepieIndex = this.state.przepis.findIndex(r => {
+				return r.id === this.state.chosenRecepie;
+			  });
+			  recepie = (
+				  <Modal
+					show={this.state.ModalShow}
+					aria-labelledby="simple-modal-title"
+					aria-describedby="simple-modal-description"
+					onHide={() => this.setState({ ModalShow: false })}
+					centered
+					size="lg"
+					aria-labelledby="contained-modal-title-vcenter"
+				  >
+					<RecipeCard
+					przepis = {this.state.przepis[recepieIndex]}
+					/>
+				  </Modal>
+			  );
+		}
 
     return (
       <div className = "Home">
         <h1> Przepisy </h1>
 		<p> jAKIEŚ CUDA Z css WIĘC DAJE OPISIK </p>
-		{Recepies}
-		<Modal
-  		show={this.state.ModalShow}
-  		onClose={this.RecepieClose}
-  		aria-labelledby="simple-modal-title"
-  		aria-describedby="simple-modal-description"
-		>
-			Na razie nic tu nie będzie
-		</Modal>
+		{recipes}
+		{recepie}
       </div>
     );
   }
