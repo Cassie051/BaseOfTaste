@@ -8,8 +8,7 @@ namespace BazaSmakuAPI.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseOracle(@"DATA SOURCE=localhost:1521/orcl;DBA PRIVILEGE=SYSDBA;PERSIST SECURITY INFO=True;USER ID=SYS; PASSWORD=Start123");
-            optionsBuilder.UseOracle(@"DATA SOURCE=localhost:1521/orcl;PERSIST SECURITY INFO=True;USER ID=BAZASMAKU; PASSWORD=Start123");
+            optionsBuilder.UseOracle(@"DATA SOURCE=localhost:1521/BAZASMAKU;PERSIST SECURITY INFO=True;USER ID=BSUSER; PASSWORD=Start123");
         }
 
         public DbSet<Alergen> Alergen { get; set; }
