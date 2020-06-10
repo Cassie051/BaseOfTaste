@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import {Col, Row, Container, Modal, Button} from 'react-bootstrap';
 import Recipes from './Recipes/Recipes';
 import RecipeCard from './Recipes/Recipe/RecipeCard';
-import Modal from 'react-bootstrap/Modal';
 import './Home.css';
 
 export class Home extends Component {
@@ -32,8 +33,6 @@ export class Home extends Component {
 
 	RecepieClick = (recepieKey) => {
 		this.setState({ModalShow: true});
-		// let recepie = { ...this.state.przepis[recepieIndex] };
-		// this.setState( {chosenRecepie: this.state.przepis[recepieIndex]});
 		this.setState({ chosenRecepie: recepieKey })
 	}
 
@@ -52,6 +51,7 @@ export class Home extends Component {
 				return r.id === this.state.chosenRecepie;
 			  });
 			  recepie = (
+				  <Col>
 				  <Modal
 					show={this.state.ModalShow}
 					aria-labelledby="simple-modal-title"
@@ -59,21 +59,33 @@ export class Home extends Component {
 					onHide={() => this.setState({ ModalShow: false })}
 					centered
 					size="lg"
-					aria-labelledby="contained-modal-title-vcenter"
 				  >
 					<RecipeCard
 					przepis = {this.state.przepis[recepieIndex]}
 					/>
 				  </Modal>
+				  </Col>
 			  );
 		}
 
+
     return (
       <div className = "Home">
-        <h1> Przepisy </h1>
-		<p> jAKIEŚ CUDA Z css WIĘC DAJE OPISIK </p>
-		{recipes}
-		{recepie}
+		  <Container>
+			  <Row>
+				  <Col> <h1> Przepisy </h1> </Col>
+				  <Col md="auto" style={{paddingTop: "2%", paddingRight: "8%"}}>
+					  <Link to="/AddRecipe">
+					  <Button> Dodaj przepis </Button>
+					  </Link>
+					  </Col>
+			  </Row>
+			  <Row> <p> jAKIEŚ CUDA Z css WIĘC DAJE OPISIK </p> </Row>
+			  <Row>
+				{recipes}
+				{recepie}
+			  </Row>
+		  </Container>
       </div>
     );
   }

@@ -1,7 +1,32 @@
-/* .rec {
-    margin: 20px;
-} */
+/* https://coolors.co/bfdbf7-fefae0-cc8b86-cad49d-2f4b26 */
 
 .Home {
     text-align: left;
+}
+
+.modal {
+    background-color: whitesmoke;
+    background-color: rgba(128,128,128,0.2);
+}
+
+.modal-content  {
+    /* -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important; */
+    border-radius: 10px !important;
+    border-width: 8px;
+    border-color: #CAD49D;
+}
+
+.btn{
+    background: #CAD49D;
+    color: black;
+    border-width: 2px;
+    border-color: #CAD49D;
+    border-radius: 10px;
+}
+
+.btn:hover{
+    background: #2F4B26;
+    color: whitesmoke;
+    border-color: #CAD49D;
 }

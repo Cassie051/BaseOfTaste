@@ -17,11 +17,9 @@
 }
 
 .img {
-    width: 170px;
+    width: 100%;
     height: auto;
     float: right;
     border-radius: 4px;
-    display: block;
-    margin: 10px;
     clear: right;
 }
