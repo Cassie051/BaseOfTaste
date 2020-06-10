@@ -1,0 +1,22 @@
+.SaveInfo {
+    padding: 16px;
+    margin: auto;
+    background-color: #BFDBF7;
+    width: 30%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    -webkit-box-shadow:0 0 20px #BFDBF7; 
+    -moz-box-shadow: 0 0 20px #BFDBF7; 
+    box-shadow:0 0 20px #BFDBF7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SaveInfo.p {
+    margin: 0;
+    top: 50%;                         /* 3 */
+    transform: translate(0, -50%);
+    text-align: center;
+    position: absolute;
+}

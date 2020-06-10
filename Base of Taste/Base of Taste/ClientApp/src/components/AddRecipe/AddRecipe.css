@@ -1,0 +1,55 @@
+.AddRecipe {
+    padding: 16px;
+    margin: auto;
+    border: 1px solid rgb(148, 147, 147);
+    box-shadow: 0 2px 3px #ccc;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.btn{
+    background: #CAD49D;
+    color: black;
+    border-width: 2px;
+    border-color: #CAD49D;
+    border-radius: 10px;
+}
+
+.btn:hover{
+    background: #2F4B26;
+    color: whitesmoke;
+    border-color: #CAD49D;
+}
+
+.Invert {
+    background: #426D37;
+    color: whitesmoke;
+    border-color: #CAD49D;
+}
+
+.Invert:hover {
+    background: #CAD49D;
+    color: black;
+    border-width: 2px;
+    border-color: #CAD49D;
+    border-radius: 10px;
+}
+
+
+.InvertS {
+    background: #426D37;
+    padding-left: 3px;
+    padding-top: 3px;
+    color: whitesmoke;
+    border-color: #CAD49D;
+    border-radius: 50%;
+    width: 41px;
+    height: 41px;
+}
+
+.InvertS:hover {
+    background: #CAD49D;
+    color: black;
+    border-color: #CAD49D;
+    border-radius: 40px;
+}
