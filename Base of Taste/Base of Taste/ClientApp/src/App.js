@@ -3,6 +3,8 @@ import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { AddRecipe } from './components/AddRecipe/AddRecipe';
+import { Menu } from './components/Menu/Menu';
+import { Filtr } from './components/Flirt/Filtr';
 
 
  class App extends Component {
@@ -13,8 +15,8 @@ import { AddRecipe } from './components/AddRecipe/AddRecipe';
       <Layout>
         <Route exact path='/' component={ Home } />
         <Route exact path='/AddRecipe' component={ AddRecipe } />
-        {/* <Route path='/counter' component={ Menu } />
-        <Route path='/fetch-data' component={ Flirt } /> */}
+        <Route exact path='/Menu' component={ Menu } />
+        <Route exact path='/Filtr' component={ Filtr } />
       </Layout>
     );
   }

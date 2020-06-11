@@ -1,0 +1,8 @@
+.Menu {
+    padding: 16px;
+    margin: auto;
+    border: 1px solid rgb(148, 147, 147);
+    box-shadow: 0 2px 3px #ccc;
+    background-color: white;
+    border-radius: 10px;
+}

@@ -10,6 +10,7 @@ const Recipes = (props) => {
 			opis= {rec.opis}
 			trudnosc = {rec.trudnosc}
 			przygotowanie = {rec.przygotowanie}
+			plik = {rec.plik}
 			key={rec.id}
 			click = {() => props.clicked(rec.id)}
 			/>
